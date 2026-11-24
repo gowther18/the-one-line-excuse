@@ -32,6 +32,18 @@ MIN_CHARS = 1
 MAX_CHARS = 160
 
 
+def check_single_line(text: str) -> None:
+    """Refuse a text that is not exactly one line.
+
+    The competition asks for a one-line excuse: an embedded newline
+    would split the entry into two lines on the judge's board, so a
+    text that passes the length gate but carries a line break must
+    never reach /output/entry.txt.
+    """
+    if "\n" in text or "\r" in text:
+        raise SystemExit("entry text must be a single line")
+
+
 def check_length(text: str) -> None:
     """Refuse to write a text that falls outside the entry gate."""
     n = len(text)
@@ -43,6 +55,7 @@ def check_length(text: str) -> None:
 
 
 def main() -> None:
+    check_single_line(TEXT)
     check_length(TEXT)
     out = Path("/output/entry.txt")
     out.parent.mkdir(parents=True, exist_ok=True)
